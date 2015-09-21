@@ -20,6 +20,8 @@ namespace HttpServer
             listenHandler = new Listener();
             listenHandler.StartListening();
             TcpClient incomingClient = listenHandler.AcceptClient();
+            RequestHandler reqHandler = new RequestHandler(incomingClient);
+            //reqHandler.RequestContent.Headers;
             Console.ReadLine();
         }
     }
