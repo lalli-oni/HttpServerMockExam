@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HttpServer
 {
-    class Listener
+    public class Listener
     {
         private TcpListener listener;
         /// <summary>
@@ -45,10 +45,10 @@ namespace HttpServer
         /// Accepts incoming connection requests.
         /// </summary>
         /// <returns>The Client object representing the connection</returns>
-        public TcpClient AcceptClient()
+        public Socket AcceptClient()
         {
             Trace.WriteLine("Accepting clients...");
-            TcpClient returnClient = listener.AcceptTcpClient();
+            Socket returnClient = listener.AcceptSocket();
             return returnClient;
         }
     }
