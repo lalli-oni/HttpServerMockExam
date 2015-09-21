@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -24,11 +25,20 @@ namespace HttpServer
         public void StartListening()
         {
             listener.Start(100);
+            Trace.WriteLine("Listening...");
         }
 
         public void StopListening()
         {
             listener.Stop();
+            Trace.WriteLine("Stopped listening...");
+        }
+
+        public TcpClient AcceptClient()
+        {
+            Trace.WriteLine("Accepting clients...");
+            TcpClient returnClient = listener.AcceptTcpClient();
+            return returnClient;
         }
     }
 }
