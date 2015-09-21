@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -21,22 +22,43 @@ namespace HttpServer
         {
             _responseMessage = new HttpResponseMessage(HttpStatusCode.OK);
 
-            Byte[] bytesResponse = Encoding.ASCII.GetBytes("Hello world!");
-            string sBuffer = "";
-            sBuffer = sBuffer + "HTTP/1.1" + " 200 OK" + "\r\n";
-            sBuffer = sBuffer + "Server: cx1193719-b\r\n";
-            sBuffer = sBuffer + "Content-Type: " + "text/html" + "\r\n";
-            sBuffer = sBuffer + "Accept-Ranges: bytes\r\n";
-            sBuffer = sBuffer + "Content-Length: " + bytesResponse.Length + "\r\n\r\n";
-            sBuffer = sBuffer + "Hello world!\r\n";
 
             if (request.Contains("GET"))
             {
-                HttpContent cont = new StringContent("Hello world!");
-                _responseMessage.Content = cont;
-                Byte[] bSendData = Encoding.ASCII.GetBytes(sBuffer);
-                client.Send(bSendData);
-                client.Dispose();
+                if (request.Contains("test.html"))
+                {
+                    FileStream fStream = new FileStream("C:/Temp/trialHttpServer.html", FileMode.Open);
+                    string byteBuff = "";
+                    while (fStream.Position < fStream.Length)
+                    {
+                        byteBuff = byteBuff + fStream.ReadByte();
+                    }
+                    Byte[] fileBytesResponse = Encoding.ASCII.GetBytes("Hello world!");
+                    string fileBuffer = "";
+                    fileBuffer = fileBuffer + "HTTP/1.1" + " 200 OK" + "\r\n";
+                    fileBuffer = fileBuffer + "Server: cx1193719-b\r\n";
+                    fileBuffer = fileBuffer + "Content-Type: " + "text/html" + "\r\n";
+                    fileBuffer = fileBuffer + "Accept-Ranges: bytes\r\n";
+                    fileBuffer = fileBuffer + "Content-Length: " + fileBytesResponse.Length + "\r\n\r\n";
+                    fileBuffer = fileBuffer + "Hello world!\r\n";
+                    Byte[] bFileSendData = Encoding.ASCII.GetBytes(fileBuffer);
+                    client.Send(bFileSendData);
+                    client.Dispose();
+                }
+                else
+                {
+                    Byte[] bytesResponse = Encoding.ASCII.GetBytes("Hello world!");
+                    string sBuffer = "";
+                    sBuffer = sBuffer + "HTTP/1.1" + " 200 OK" + "\r\n";
+                    sBuffer = sBuffer + "Server: cx1193719-b\r\n";
+                    sBuffer = sBuffer + "Content-Type: " + "text/html" + "\r\n";
+                    sBuffer = sBuffer + "Accept-Ranges: bytes\r\n";
+                    sBuffer = sBuffer + "Content-Length: " + bytesResponse.Length + "\r\n\r\n";
+                    sBuffer = sBuffer + "Hello world!\r\n";
+                    Byte[] bSendData = Encoding.ASCII.GetBytes(sBuffer);
+                    client.Send(bSendData);
+                    client.Dispose();
+                }
             }
         }
     }
